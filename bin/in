@@ -36,7 +36,7 @@ RESOURCE_NAME=$(jq -r .source.resource_name < /tmp/input)
 
 
 if [[ "$RESOURCE_TYPE" == "job" ]]; then
-   result="job was created succesfully"
+   result="$jq -n job was created succesfully"
 else
     if [[ -z "$RESOURCE_TYPE" ]] || [[ -z "$RESOURCE_NAME" ]]; then
         result=""
