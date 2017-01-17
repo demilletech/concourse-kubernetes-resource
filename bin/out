@@ -30,7 +30,7 @@ rollingupdate() {
 start_job() {
     JOB=$1
     IMAGE=$2
-    UID=${3:-$(date +%s)}
+    UID=$3
 
     [ -n "$JOB" ] || exit 1
     [ -n "$IMAGE" ] || exit 1
