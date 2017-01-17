@@ -34,6 +34,12 @@ fi
 RESOURCE_TYPE=$(jq -r .source.resource_type < /tmp/input)
 RESOURCE_NAME=$(jq -r .source.resource_name < /tmp/input)
 
+case $RESOURCE_TYPE in
+   job)
+   echo "lets escape the problem?"
+esac
+
+
 if [[ -z "$RESOURCE_TYPE" ]] || [[ -z "$RESOURCE_NAME" ]]; then
     result=""
 else
