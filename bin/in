@@ -22,11 +22,11 @@ if [[ "$KUBE_URL" =~ https.* ]]; then
     CA_PATH="/root/.kube/ca.pem"
     KEY_PATH="/root/.kube/key.pem"
     CERT_PATH="/root/.kube/cert.pem"
-    
+
     echo "$KUBE_CA" | base64 -d > $CA_PATH
     echo "$KUBE_KEY" | base64 -d > $KEY_PATH
     echo "$KUBE_CERT" | base64 -d > $CERT_PATH
-    
+
     KUBECTL="$KUBECTL --certificate-authority=$CA_PATH --client-key=$KEY_PATH --client-certificate=$CERT_PATH"
 fi
 
@@ -36,7 +36,8 @@ RESOURCE_NAME=$(jq -r .source.resource_name < /tmp/input)
 
 
 if [[ "$RESOURCE_TYPE" == "job" ]]; then
-   result="$(jq -n "job was created succesfully")"
+   result="$(jq -n "{version:{container: \"job/succesful:1.0.0\"}}")"
+   echo $result
 else
     if [[ -z "$RESOURCE_TYPE" ]] || [[ -z "$RESOURCE_NAME" ]]; then
         result=""
@@ -46,8 +47,9 @@ else
         RESOURCE="$RESOURCE_TYPE/$RESOURCE_NAME"
 
         IMG=$($KUBECTL get -o json $RESOURCE | jq -r '.spec.template.spec.containers[0].image')
-
+        echo $IMG
         result="$(jq -n "{version:{container:\"$IMG\"}}")"
+        echo "$result"
     fi
 fi
 echo "$result" | jq -s add  >&3
