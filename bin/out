@@ -27,6 +27,14 @@ rollingupdate() {
     $KUBECTL rolling-update rc/$RC --image=$IMAGE
 }
 
+start_delete() {
+    JOB=$1
+
+    [ -n "$JOB" ] || exit 1
+
+    cat $JOB | $KUBECTL delete -f -
+}
+
 start_job() {
     JOB=$1
 
@@ -34,6 +42,7 @@ start_job() {
 
     cat $JOB | $KUBECTL create -f -
 }
+
 
 DEBUG=$(jq -r .source.debug < /tmp/input)
 [[ "$DEBUG" == "true" ]] && { echo "Enabling debug mode.";set -x; }
@@ -98,6 +107,8 @@ case $RESOURCE_TYPE in
     rollingupdate $RESOURCE_NAME $IMG;;
     job)
     start_job $RESOURCE_PATH;;
+    delete)
+    start_delete $RESOURCE_PATH;;
     *)
     exit 1
 esac

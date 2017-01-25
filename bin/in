@@ -35,7 +35,7 @@ RESOURCE_TYPE=$(jq -r .source.resource_type < /tmp/input)
 RESOURCE_NAME=$(jq -r .source.resource_name < /tmp/input)
 
 
-if [[ "$RESOURCE_TYPE" == "job" ]]; then
+if [[ "$RESOURCE_TYPE" == "job" ]] || [[ "$RESOURCE_TYPE" == "delete" ]]; then
    result="$(jq -n "{version:{container: \"job/succesful:1.0.0\"}}")"
    echo $result
 else
