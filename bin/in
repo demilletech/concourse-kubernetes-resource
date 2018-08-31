@@ -22,10 +22,10 @@ if [[ "$KUBE_URL" =~ https.* ]]; then
     CA_PATH="/root/.kube/ca.pem"
     KEY_PATH="/root/.kube/key.pem"
     CERT_PATH="/root/.kube/cert.pem"
-
-    echo "$KUBE_CA" | base64 -d > $CA_PATH
-    echo "$KUBE_KEY" | base64 -d > $KEY_PATH
-    echo "$KUBE_CERT" | base64 -d > $CERT_PATH
+    
+    echo "$KUBE_CA" > $CA_PATH
+    echo "$KUBE_KEY" > $KEY_PATH
+    echo "$KUBE_CERT" > $CERT_PATH
 
     KUBECTL="$KUBECTL --certificate-authority=$CA_PATH --client-key=$KEY_PATH --client-certificate=$CERT_PATH"
 fi
