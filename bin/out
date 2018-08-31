@@ -101,7 +101,7 @@ export KUBECTL
 
 # do things
 case $RESOURCE_TYPE in
-    deployment)
+    (deployments|deploy))
     deploy $RESOURCE_NAME $CONTAINER_NAME $IMG;;
     replicationcontroller)
     rollingupdate $RESOURCE_NAME $IMG;;
