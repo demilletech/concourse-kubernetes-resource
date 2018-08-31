@@ -94,24 +94,32 @@ if [[ -z "$RESOURCE_NAME" ]]; then
 fi
 
 if [[ "$CONTAINER_NAME" == "null" ]]; then
-  CONTAINER_NAME=$RESOURCE_NAME
+    CONTAINER_NAME=$RESOURCE_NAME
 fi
 
 export KUBECTL
 
 # do things
-case $RESOURCE_TYPE in
-    (deployments|deploy))
-    deploy $RESOURCE_NAME $CONTAINER_NAME $IMG;;
-    replicationcontroller)
-    rollingupdate $RESOURCE_NAME $IMG;;
-    job)
-    start_job $RESOURCE_PATH;;
-    delete)
-    start_delete $RESOURCE_PATH;;
-    *)
+if [$RESOURCE_TYPE = deploy | $RESOURCE_TYPE = deployments]
+then
+    deploy $RESOURCE_NAME $CONTAINER_NAME $IMG
+fi
+elif [$RESOURCE_TYPE = replicationcontroller]
+then
+    rollingupdate $RESOURCE_NAME $IMG
+fi
+elif [$RESOURCE_TYPE = job]
+then
+    start_job $RESOURCE_PATH
+fi
+elif [$RESOURCE_TYPE = delete]
+then
+    start_delete $RESOURCE_PATH
+fi
+else
+    echo "Unknown resource type"
     exit 1
-esac
+fi
 
 result="$(jq -n "{version:{container:\"$IMG\"}}")"
 echo "$result" | jq -s add  >&3
