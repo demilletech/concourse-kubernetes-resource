@@ -14,7 +14,7 @@ deploy() {
     [ -n "$IMAGE" ] || exit 1
     [ -n "$CONTAINER" ] || exit 1
 
-    $KUBECTL set image deployment/$DEPLOYMENT $CONTAINER=$IMAGE
+    $KUBECTL set image deployments/$DEPLOYMENT $CONTAINER=$IMAGE
 }
 
 rollingupdate() {
