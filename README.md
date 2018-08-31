@@ -7,7 +7,7 @@ resource_types:
 - name: kubernetes
   type: docker-image
   source:
-    repository: jcderr/concourse-kubernetes-resource
+    repository: demilletech/concourse-kubernetes-resource
 resources:
 - name: kubernetes
   type: kubernetes
